@@ -160,6 +160,56 @@ ivcap job create urn:ivcap:service:a98b81a8-9279-509f-9c0e-40d39e83058a -f tests
     Account  urn:ivcap:account:45a06508-5c3a-4678-8e6d-e6399bf27538
 ```
 
+### Inspecting and downloading the result
+
+Check all aspects created by the job
+
+```
+% ivcap datafabric query -e urn:ivcap:job:d0e8225e-7de5-479e-b2c7-e8f23201c63e
+
+  Entity  urn:ivcap:job:d0e8225e-7de5-479e-b2c7-e8f23201c63e
+ At Time  now (26 Feb 26 18:05 AEDT)
+ Records  ┌────┬────────────────────────────────────────────────────┬───────────────────────────────────────────────────┐
+          │ ID │ ENTITY                                             │ SCHEMA                                            │
+          ├────┼────────────────────────────────────────────────────┼───────────────────────────────────────────────────┤
+          │ @1 │ urn:ivcap:job:d0e8225e-7de5-479e-b2c7-e8f23201c63e │ urn:ivcap:schema:simple-rnaseq-pipeline.request.1 │
+          │ @2 │ urn:ivcap:job:d0e8225e-7de5-479e-b2c7-e8f23201c63e │ urn:ivcap:schema:nextflow.result.1                │
+          │ @3 │ urn:ivcap:job:d0e8225e-7de5-479e-b2c7-e8f23201c63e │ urn:ivcap:schema:job.result.1                     │
+          │ @4 │ urn:ivcap:job:d0e8225e-7de5-479e-b2c7-e8f23201c63e │ urn:ivcap:schema:job.2                            │
+          └────┴────────────────────────────────────────────────────┴───────────────────────────────────────────────────┘
+```
+
+The second entry holds the pipeline result (`schema: urn:ivcap:schema:nextflow.result.1`)
+```
+% ivcap datafabric get @2 --content-only
+$schema: urn:ivcap:schema:nextflow.result.1
+job_id: urn:ivcap:job:d0e8225e-7de5-479e-b2c7-e8f23201c63e
+results_artifact_urn: urn:ivcap:artifact:c6879dfc-e10a-4428-8438-13e9a81affe3
+status: succeeded
+```
+
+All the output files are contained in the artifact `results_artifact_urn`
+
+```
+% ivcap  --silent artifact download urn:ivcap:artifact:c6879dfc-e10a-4428-8438-13e9a81affe3 -f - | tar ztf -
+./
+./d0e8225e-7de5-479e-b2c7-e8f23201c63e/
+./d0e8225e-7de5-479e-b2c7-e8f23201c63e/.nextflow.log
+./d0e8225e-7de5-479e-b2c7-e8f23201c63e/output/
+./d0e8225e-7de5-479e-b2c7-e8f23201c63e/output/pipeline_info/
+./d0e8225e-7de5-479e-b2c7-e8f23201c63e/output/pipeline_info/execution_report_2026-02-26_06-04-41.html
+...
+./d0e8225e-7de5-479e-b2c7-e8f23201c63e/results/
+./d0e8225e-7de5-479e-b2c7-e8f23201c63e/results/fastqc/
+...
+./d0e8225e-7de5-479e-b2c7-e8f23201c63e/results/multiqc/
+./d0e8225e-7de5-479e-b2c7-e8f23201c63e/results/multiqc/all_paired-end.html
+./d0e8225e-7de5-479e-b2c7-e8f23201c63e/results/multiqc/all_paired-end_data/
+...
+./d0e8225e-7de5-479e-b2c7-e8f23201c63e/results/trimming/
+...
+```
+
 ## Notes / known quirks
 
 * `nextflow.config` sets `docker.fixOwnership = true` to avoid root-owned files in `work/`.
