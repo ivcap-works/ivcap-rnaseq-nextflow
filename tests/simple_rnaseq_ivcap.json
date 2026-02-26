@@ -1,0 +1,14 @@
+{
+  "$schema": "urn:ivcap:schema:simple-rnaseq-pipeline.request.1",
+  "parameters": {
+    "hisat2_index_zip": "https://github.com/nf-core/test-datasets/raw/refs/heads/taxprofiler/data/database/ganon/test-db-ganon.tar.gz",
+    "report_id": "all_paired-end"
+  },
+  "samples": [
+    [
+      "ERR5766176",
+      "https://github.com/nextflow-io/training/raw/refs/heads/master/nf4-science/rnaseq/data/reads/ENCSR000COQ1_1.fastq.gz",
+      "https://github.com/nextflow-io/training/raw/refs/heads/master/nf4-science/rnaseq/data/reads/ENCSR000COQ1_2.fastq.gz"
+    ]
+  ]
+}

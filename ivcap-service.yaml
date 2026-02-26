@@ -1,0 +1,37 @@
+"$schema": urn:ivcap:schema.service.2
+$id: @SERVICE_ID@
+name: simple-rnaseq-pipeline
+description: |
+  This pipeline provides a workflow for processing and analyzing bulk RNAseq data
+  following the mthos described in https//www.bioinformatics.babraham.ac.uk/training/RNASeq_Course/Analysing%20RNA-Seq%20data%20Exercise.pdf
+
+  The workflow consists of the following processing steps:
+  * run initial quality control on reads in a bulk RNAseq sample
+  * trim adapter sequences from the reads
+  * align the reads to a reference genome
+  * produce a comprehensive quality control (QC) report.
+
+  More specifically it uses the following programs:
+  * FASTQC: Perform QC on the read data before trimming using FastQC
+  * TRIM_GALORE: Trim adapter sequences and perform QC after trimming using Trim Galore (bundles Cutadapt and FastQC)
+  * HISAT2_ALIGN: Align reads to the reference genome using Hisat2
+  * MULTIQC: Generate a comprehensive QC report using MultiQC
+
+parameters: []
+contact:
+  name: Mary Doe
+  email: mary.doe@acme.au
+policy: urn:ivcap:policy:ivcap.open.service
+controller-schema: urn:ivcap:schema.service.nextflow.1
+controller:
+  $schema: urn:ivcap:schema.service.nextflow.1
+  pipeline:
+    urn: @PIPELINE@
+    main_script: main.nf
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
