@@ -20,7 +20,7 @@ In this repo the pipeline focuses on a *paired-end* RNA-seq QC workflow using:
 * [Prerequisites](#prerequisites)
 * [Run locally](#run-locally)
 * [Deploy to IVCAP](#deploy-to-ivcap)
-  * [Deploy (one command)](#deploy-one-command)
+  * [DActual deployment)](#actual-deployment)
 * [Test an IVCAP job request](#test-an-ivcap-job-request)
 * [Notes / known quirks](#notes-known-quirks)
 * [More instructions will follow](#more-instructions-will-follow)
@@ -34,6 +34,7 @@ In this repo the pipeline focuses on a *paired-end* RNA-seq QC workflow using:
   * `data/paired-end.csv` — example samplesheet used by default
 * `schema_input.json` — JSON schema describing the sample input file structure (used by the IVCAP controller)
 * `ivcap-service.yaml` — IVCAP *service definition* template (references the packaged pipeline artifact)
+* `ivcap-tool.yaml` — JSON schema (AI tool) definition for the IVCAP job request payload (parameters + samplesheet)
 * `tests/simple_rnaseq_ivcap.json` — example IVCAP job request
 * `Makefile` — convenience targets for running, packaging, deploying, and testing
 
@@ -76,7 +77,21 @@ Opening `results/multiqc/all_paired-end.html` would show something like:
 
 > This repository assumes you have the **IVCAP CLI** installed and configured.
 
-### Deploy (one command)
+This also requires:
+
+* an **IVCAP service definition** file named `ivcap-service.yaml`, and
+* an **IVCAP tool definition** file named `ivcap-tool.yaml`.
+
+Examples of both are provided in this repository:
+
+* `./ivcap-service.yaml` should primarily contain a **detailed `description`** of what the pipeline does and the **context** in which it should be used.
+  * Currently, the only other required piece is to ensure `controller.pipeline.main_script` is set to the Nextflow entrypoint in this repository (i.e. `main.nf`).
+* `./ivcap-tool.yaml` describes the **shape of the job request** as a JSON schema.
+  * The request payload contains both:
+    * `parameters`: the same sort of key/value parameters you would normally put in a Nextflow `-params-file`, and
+    * `samples`: the sample sheet / sample list describing which read files to process.
+
+### Actual deployment
 
 The following make target will deploy this pipeline to the IVCAP platform configured as default in the `ivcap` cli command (`ivcap context get`)
 

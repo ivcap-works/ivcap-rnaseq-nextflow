@@ -1,0 +1,76 @@
+$schema: urn:sd-core:schema.ai-tool.1
+id: urn:sd-core:nextflow:simple-rnaseq-pipeline
+name: simple-rnaseq-pipeline
+service-id: urn:ivcap:service:a98b81a8-9279-509f-9c0e-40d39e83058a
+description: |
+  This pipeline provides a workflow for processing and analyzing bulk RNAseq data
+  following the mthos described in https://www.bioinformatics.babraham.ac.uk/training/RNASeq_Course/Analysing%20RNA-Seq%20data%20Exercise.pdf
+
+  The workflow consists of the following processing steps:
+  * run initial quality control on reads in a bulk RNAseq sample
+  * trim adapter sequences from the reads
+  * align the reads to a reference genome
+  * produce a comprehensive quality control (QC) report.
+
+  More specifically it uses the following programs:
+  * FASTQC: Perform QC on the read data before trimming using FastQC
+  * TRIM_GALORE: Trim adapter sequences and perform QC after trimming using Trim Galore (bundles Cutadapt and FastQC)
+  * HISAT2_ALIGN: Align reads to the reference genome using Hisat2
+  * MULTIQC: Generate a comprehensive QC report using MultiQC
+
+fn-schema:
+  $schema: http://json-schema.org/draft-07/schema#
+  $id: urn:ivcap:schema:simple-rnaseq-pipeline.request.1
+  title: Request to run pipeline 'simple-rnaseq-pipeline'
+  type: object
+  example:
+    $schema: urn:ivcap:schema:simple-rnaseq-pipeline.request.1
+    parameters:
+      hisat2_index_zip: https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/taxprofiler/data/database/ganon/test-db-ganon.tar.gz
+      report_id: all_paired-end
+    samples:
+      -
+        - ERR5766176
+        - https://raw.githubusercontent.com/nextflow-io/training/refs/heads/master/other/hands-on/data/reads/ENCSR000COQ1_1.fastq.gz
+        - https://raw.githubusercontent.com/nextflow-io/training/refs/heads/master/other/hands-on/data/reads/ENCSR000COQ1_2.fastq.gz
+  properties:
+    $schema:
+      type: string
+      description: The unique identifier for this schema version.
+      const: urn:ivcap:schema:simple-rnaseq-pipeline.request.1
+    parameters:
+      type: object
+      required:
+        - hisat2_index_zip
+        - report_id
+      properties:
+        hisat2_index_zip:
+          type: string
+          format: uri
+          description: A URI (artifact or external URL) pointing to the HISAT2 index file (e.g. zip or tarball).
+        report_id:
+          type: string
+          description: An identifier used for generating the report.
+      additionalProperties: false
+    samples:
+      description: 'List of samples; each sample is a list [sample_name, read1_urn, read2_urn]'
+      title: Samples
+      type: array
+      items:
+        type: array
+        description: A single sample entry.
+        minItems: 3
+        maxItems: 3
+        items:
+          -
+            type: string
+            description: 'sample_name: A unique identifier for the biological sample.'
+          -
+            type: string
+            description: 'read1_urn: The URN/URI pointing to the forward (Read 1) sequencing file.'
+          -
+            type: string
+            description: 'read2_urn: The URN/URI pointing to the reverse (Read 2) sequencing file.'
+  required:
+    - paramters
+    - samples

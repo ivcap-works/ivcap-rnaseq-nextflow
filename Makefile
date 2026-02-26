@@ -9,6 +9,7 @@ run: clean-local
 		-c nextflow.config \
 		-c conf/weblog.disabled.config \
 		-params-file params.json \
+		--input data/paired-end.csv \
 		-cache false
 
 mermaid:

@@ -17,8 +17,8 @@ include { MULTIQC } from './modules/multiqc.nf'
 
 workflow {
     // Create input channel from the contents of a CSV file
-    // Accept either `--input <path>` or `--input_csv <path>`; default to the bundled example sheet
-    def input_csv = params.input ?: params.input_csv ?: 'data/paired-end.csv'
+    // Accept either `--input <path>` or `--input_csv <path>`
+    def input_csv = params.input
 
     read_ch = channel.fromPath(input_csv)
         .splitCsv(header:true)
