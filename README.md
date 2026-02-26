@@ -21,10 +21,8 @@ In this repo the pipeline focuses on a *paired-end* RNA-seq QC workflow using:
 * [Run locally](#run-locally)
 * [Deploy to IVCAP](#deploy-to-ivcap)
   * [Deploy (one command)](#deploy-one-command)
-  * [Deploy the pipeline artifact (manual step)](#deploy-the-pipeline-artifact-manual-step)
-  * [Deploy/update the IVCAP service definition (manual step)](#deployupdate-the-ivcap-service-definition-manual-step)
 * [Test an IVCAP job request](#test-an-ivcap-job-request)
-* [Notes / known quirks](#notes--known-quirks)
+* [Notes / known quirks](#notes-known-quirks)
 * [More instructions will follow](#more-instructions-will-follow)
 
 ## Repository layout (high level)
@@ -74,6 +72,8 @@ By default the pipeline reads the sample sheet from `data/paired-end.csv` (see `
 ## Deploy to IVCAP
 
 > This repository assumes you have the **IVCAP CLI** installed and configured.
+
+### Deploy (one command)
 
 The following make target will deploy this pipeline to the IVCAP platform configured as default in the `ivcap` cli command (`ivcap context get`)
 
