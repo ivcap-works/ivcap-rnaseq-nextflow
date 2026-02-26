@@ -68,7 +68,9 @@ executor >  local (13)
 ```
 
 By default the pipeline reads the sample sheet from `data/paired-end.csv` (see `nextflow.config` and `main.nf`). Results are written to `results/`.
+Opening `results/multiqc/all_paired-end.html` would show something like:
 
+<img src="docs/multiqc.png" />
 ## Deploy to IVCAP
 
 > This repository assumes you have the **IVCAP CLI** installed and configured.
