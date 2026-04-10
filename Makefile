@@ -38,7 +38,7 @@ deploy-pipeline: package
 package: ${PACKAGE_NAME}.tar
 
 ${PACKAGE_NAME}.tar:
-	tar cvf ${PACKAGE_NAME}.tar ${MAIN_NF_FILE} nextflow.config modules/ conf/ schema_input.json
+	tar cvf ${PACKAGE_NAME}.tar ivcap.yaml ${MAIN_NF_FILE} nextflow.config modules/ conf/ schema_input.json
 
 clean: clean-local
 	rm -rf ${PACKAGE_NAME}.tar
