@@ -10,7 +10,15 @@ run: clean-local
 		-c conf/weblog.disabled.config \
 		-params-file params.json \
 		--input data/paired-end.csv \
+		-with-dag workflow.dot \
 		-cache false
+
+run-with-logs: clean-local
+        nextflow run ${MAIN_NF_FILE} \
+                -c nextflow.config \
+                -params-file params.json \
+                --input data/paired-end.csv \
+                -cache false
 
 mermaid:
 	nextflow run ${MAIN_NF_FILE} \
