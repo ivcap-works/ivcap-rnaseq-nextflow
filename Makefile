@@ -2,7 +2,7 @@
 PACKAGE_NAME=simple-rna-seq
 MAIN_NF_FILE=main.nf
 
-SERVICE_ID=urn:ivcap:service:a98b81a8-9279-509f-9c0e-40d39e83058a
+SERVICE_ID=$(shell yq '.service-id' ivcap.yaml)
 
 run: clean-local
 	nextflow run ${MAIN_NF_FILE} \
@@ -19,6 +19,9 @@ run-with-logs: clean-local
                 -params-file params.json \
                 --input data/paired-end.csv \
                 -cache false
+
+service-id:
+	@echo ${SERVICE_ID}
 
 mermaid:
 	nextflow run ${MAIN_NF_FILE} \
