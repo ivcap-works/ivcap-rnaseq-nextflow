@@ -20,7 +20,7 @@ In this repo the pipeline focuses on a *paired-end* RNA-seq QC workflow using:
 * [Prerequisites](#prerequisites)
 * [Run locally](#run-locally)
 * [Deploy to IVCAP](#deploy-to-ivcap)
-  * [DActual deployment)](#actual-deployment)
+  * [Actual deployment)](#actual-deployment)
 * [Test an IVCAP job request](#test-an-ivcap-job-request)
 * [Notes / known quirks](#notes-known-quirks)
 * [More instructions will follow](#more-instructions-will-follow)
