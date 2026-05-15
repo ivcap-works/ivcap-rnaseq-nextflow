@@ -1,4 +1,4 @@
-$schema: urn:sd-core:schema.ai-tool.1
+$schema: urn:ivcap:schema.nextflow.pipeline.1
 id: urn:sd-core:nextflow:simple-rnaseq-pipeline
 name: simple-rnaseq-pipeline
 service-id: urn:ivcap:service:a98b81a8-9279-509f-9c0e-40d39e83058a
@@ -25,9 +25,8 @@ contact:
 properties:
   - name: hisat2_index_zip
     description: A URI (artifact or external URL) pointing to the HISAT2 index file (e.g. zip or tarball).
-    type: string
-    format: uri
-    optional: false
+    type: uri
+    default: asset:hisat2_index
 
   - name: report_id
     description: An identifier used for generating the report.
@@ -39,15 +38,18 @@ samples:
     type: string
     description: 'sample_name: A unique identifier for the biological sample.'
 
-  - name: read1_urn
-    type: string
-    format: uri
-    description: 'read1_urn: The URN/URI pointing to the forward (Read 1) sequencing file.'
+  - name: fastq_1
+    type: uri
+    description: 'fastq_1: The URN/URI pointing to the forward (Read 1) sequencing file.'
 
-  - name: read2_urn
-    type: string
-    format: uri
-    description: 'read2_urn: The URN/URI pointing to the reverse (Read 2) sequencing file.'
+  - name: fastq_2
+    type: uri
+    description: 'fastq_2: The URN/URI pointing to the reverse (Read 2) sequencing file.'
+
+assets:
+  - name: hisat2_index
+    description: The default index file used for alignment.
+    uri: https://github.com/nf-core/test-datasets/raw/refs/heads/taxprofiler/data/database/ganon/test-db-ganon.tar.gz
 
 example:
   $schema: urn:ivcap:schema:simple-rnaseq-pipeline.request.1
@@ -56,6 +58,6 @@ example:
     report_id: all_paired-end
   samples:
     -
-      - ERR5766176
-      - https://raw.githubusercontent.com/nextflow-io/training/refs/heads/master/other/hands-on/data/reads/ENCSR000COQ1_1.fastq.gz
-      - https://raw.githubusercontent.com/nextflow-io/training/refs/heads/master/other/hands-on/data/reads/ENCSR000COQ1_2.fastq.gz
+      sample_name: ERR5766176
+      fastq_1: https://raw.githubusercontent.com/nextflow-io/training/refs/heads/master/other/hands-on/data/reads/ENCSR000COQ1_1.fastq.gz
+      fastq_2: https://raw.githubusercontent.com/nextflow-io/training/refs/heads/master/other/hands-on/data/reads/ENCSR000COQ1_2.fastq.gz

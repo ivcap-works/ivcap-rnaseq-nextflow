@@ -1,6 +1,6 @@
 
 PACKAGE_NAME=simple-rna-seq
-MAIN_NF_FILE="main.nf"
+MAIN_NF_FILE=main.nf
 
 SERVICE_ID=urn:ivcap:service:a98b81a8-9279-509f-9c0e-40d39e83058a
 
@@ -14,7 +14,7 @@ run: clean-local
 		-cache false
 
 run-with-logs: clean-local
-        nextflow run ${MAIN_NF_FILE} \
+	nextflow run ${MAIN_NF_FILE} \
                 -c nextflow.config \
                 -params-file params.json \
                 --input data/paired-end.csv \
@@ -45,7 +45,7 @@ deploy-pipeline: package
 
 package: ${PACKAGE_NAME}.tar
 
-${PACKAGE_NAME}.tar:
+${PACKAGE_NAME}.tar: ivcap.yaml ${MAIN_NF_FILE} nextflow.config modules/ conf/ schema_input.json
 	tar cvf ${PACKAGE_NAME}.tar ivcap.yaml ${MAIN_NF_FILE} nextflow.config modules/ conf/ schema_input.json
 
 clean: clean-local
